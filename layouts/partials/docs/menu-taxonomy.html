@@ -1,0 +1,8 @@
+<!-- Autopopulate menu with all existing taxonomy categories -->
+{{range ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
+  <ul>
+    <li>
+      <a href="{{.Permalink}}">{{ humanize .Title }}</a></li>
+    </li>
+  </ul>
+{{end}}

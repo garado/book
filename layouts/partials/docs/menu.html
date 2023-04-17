@@ -10,6 +10,8 @@
 
 {{ if .Site.Params.BookMenuBundle }}
   {{ partial "docs/menu-bundle" . }}
+{{ else if .Site.Params.BookMenuTaxonomy }}
+  {{ partial "docs/menu-taxonomy" . }}
 {{ else }}
   {{ partial "docs/menu-filetree" . }}
 {{ end }}

@@ -1,14 +1,81 @@
 {{ define "main" }}
+<!-- code is trash but it gets the job done. -->
 
-  <h1>{{ .Title | humanize }}</h1>
+{{ $cat := .Title }}
+{{ $original_context := . }}
 
-  {{ if .Param .Title }}
+<h1>{{ .Title | humanize }}</h1>
+
+<!-- Show category info (defined in config) -->
+{{ if .Param .Title }}
   <p class="markdown">{{ .Param .Title }}</p>
+{{ end }}
+
+<!-- Collect subcategories into an array. -->
+{{ $subcategories := slice }}
+{{ range $term, $_ := .Site.Taxonomies}}
+  {{ with $.Site.GetPage (printf "/%s" $term | urlize) }}
+    {{ if and (ne (len .Pages) 0) (in (lower .Title) (lower $cat)) }}
+      {{ $subcategories = $subcategories | append .Title }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- Loop through pages in category to collect "stray" entries:
+  those that don't have an associated subcategory. -->
+{{ $pages_in_cat := index .Site.Taxonomies.categories $cat }}
+{{ $stray_pages := slice }}
+
+{{ range $pages_in_cat.Pages }}
+  {{ $is_stray := true }}
+  {{ $params := .Params }}
+
+  {{ range $subcategories }}
+    {{ if (index $params .) }}
+      {{ $is_stray = false }}
+    {{ end }}
   {{ end }}
 
-  <ul>
-  {{ range sort .Paginator.Pages }}
+  {{ if $is_stray }}
+  {{ $stray_pages = $stray_pages | append . }}
+  {{ end }}
+{{ end }}
 
+<!-- List everything that does have a subcategory -->
+{{ range $subcategories }}
+  <!-- Convert name: Programming/Algorithms => Algorithms -->
+  <h2>{{ strings.TrimPrefix (lower (printf "%s/" $cat)) (lower .) | humanize}}</h2>
+
+  {{ with $.Site.GetPage (printf "/%s" . | urlize) }}
+    <!-- Loop through all terms in this subcategory -->
+    {{ range .Pages }}
+    <h3> {{ .Title }} ({{ len .Pages }}) </h3>
+
+      <!-- Display all entries for current term in this subcategory -->
+      <ul>
+      {{ range sort .Paginator.Pages }}
+        <li class="markdown">
+          <p>
+            <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" .}}</a>
+
+            {{ if .Params.Sum }}
+            - {{ .Params.Sum }}
+            {{ end }}
+
+          </p>
+        </li>
+      {{ end }}
+      </ul>
+
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- Now handle stray pages -->
+{{ if ne (len $stray_pages) 0 }}
+<h2>Uncategorized</h2>
+<ul>
+{{ range $stray_pages }}
   <li class="markdown">
     <p>
       <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" .}}</a>
@@ -19,13 +86,8 @@
 
     </p>
   </li>
-
-  {{ end }}
-  </ul>
-
-  {{ template "_internal/pagination.html" . }}
+{{ end }}
+</ul>
 {{ end }}
 
-{{ define "toc" }}
-  {{ partial "docs/taxonomy" . }}
 {{ end }}

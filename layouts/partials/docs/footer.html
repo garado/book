@@ -20,6 +20,15 @@
   </div>
 {{ end }}
 
+{{ range .Params.categories }}
+    <div>
+      <a class="flex align-center book-page-tag" href="/vault/categories/{{.}}" rel="noopener">
+        <img src="{{ "svg/tag.svg" | relURL }}" class="book-icon" alt="See more" />
+        <span>{{ . }}</span>
+      </a>
+    </div>
+{{ end }}
+
 </div>
 
 {{ $script := resources.Get "clipboard.js" | resources.Minify }}
