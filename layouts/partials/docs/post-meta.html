@@ -4,9 +4,9 @@
 
 {{ range $taxonomy, $_ := .Site.Taxonomies }}
   {{ with $terms := $.GetTerms $taxonomy }}
-  <div>
+  <div class="post-meta-term-box">
     {{ range $n, $term := $terms }}{{ if $n }}, {{ end }}
-      <a href="{{ $term.RelPermalink }}">{{ $term.Title }}</a>
+      <a class="post-meta-term" href="{{ $term.RelPermalink }}">{{ $term.Title }}</a>
     {{- end }}
   </div>
   {{ end }}

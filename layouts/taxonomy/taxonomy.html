@@ -1,5 +1,22 @@
 {{ define "main" }}
+
+  <h1 class="markdown">{{ .Title | humanize }}</h1>
+
+  {{ if .Param .Title }}
+  <p class="markdown">{{ .Param .Title }}</p>
+  {{ end }}
+
+  <ul>
   {{ range sort .Paginator.Pages }}
+
+  <li class="markdown">
+    <p>
+      <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" .}}</a>
+      - &nbsp; {{- .Summary -}}
+    </p>
+</li>
+
+  <!--
   <article class="markdown book-post">
     <h2>
       <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" . }}</a>
@@ -12,7 +29,10 @@
       {{ end }}
     </p>
   </article>
+  -->
   {{ end }}
+
+  </ul>
 
   {{ template "_internal/pagination.html" . }}
 {{ end }}

@@ -90,9 +90,13 @@ ul.pagination {
   margin-bottom: $padding-16;
 
   img {
-    height: 1.5em;
-    width: 1.5em;
+    height: 0.75em;
+    width: 0.75em;
     margin-inline-end: $padding-8;
+  }
+
+  img:hover {
+    opacity: 0.5;
   }
 }
 
