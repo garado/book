@@ -9,7 +9,7 @@
         {{ if in (lower .Title) (lower $curterm) }}
         <li class="book-section-flat">
             {{ $ugh := strings.TrimPrefix (lower $curterm) (lower .Title) }}
-            <strong>{{ strings.TrimPrefix "/" $ugh | humanize}}</strong>
+            <strong>{{ humanize (strings.TrimPrefix "/" $ugh) }}</strong>
             <ul>
             {{ range .Pages }}
               <li class="flex justify-between">
