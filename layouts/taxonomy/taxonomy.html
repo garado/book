@@ -26,7 +26,7 @@
 {{ $pages_in_cat := index .Site.Taxonomies.categories $cat }}
 {{ $stray_pages := slice }}
 
-{{ range $pages_in_cat.Pages }}
+{{ range $pages_in_cat.Pages.ByWeight }}
   {{ $is_stray := true }}
   {{ $params := .Params }}
 
@@ -49,11 +49,11 @@
   {{ with $.Site.GetPage (printf "/%s" . | urlize) }}
     <!-- Loop through all terms in this subcategory -->
     {{ range .Pages }}
-    <h3> {{ .Title }} ({{ len .Pages }}) </h3>
+    <strong> {{ .Title }} ({{ len .Pages }}) </strong>
 
       <!-- Display all entries for current term in this subcategory -->
       <ul>
-      {{ range sort .Paginator.Pages }}
+      {{ range sort .Paginator.Pages.ByWeight }}
         <li class="markdown">
           <p>
             <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" .}}</a>
