@@ -1,8 +1,18 @@
 <!-- Autopopulate menu with all existing taxonomy categories -->
+
 {{range ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
+  {{ $title := humanize .Title }}
   <ul>
     <li>
-      <a href="{{.Permalink}}">{{ humanize .Title }}</a></li>
+      {{ $root := strings.TrimPrefix "/categories/" .Title }}
+      {{ $root_index := printf "%s/_index.md" $root }}
+      {{ if fileExists $root_index }}
+        {{ with .Site.GetPage $root_index }}
+        <a href="{{ .Page.RelPermalink }}"> {{ $title }} </a></li>
+        {{ end }}
+      {{ else }}
+      <a href="{{.Permalink}}"> {{ $title }}</a></li>
+      {{ end }}
     </li>
   </ul>
 {{end}}
