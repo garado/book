@@ -1,14 +1,15 @@
 {{ define "main" }}
-<!-- code is trash but it gets the job done. -->
 
 {{ $cat := .Title }}
 {{ $original_context := . }}
 
 <h1>{{ .Title | humanize }}</h1>
 
-<!-- Show category info (defined in config) -->
-{{ if .Param .Title }}
-  <p class="markdown">{{ .Param .Title }}</p>
+<!-- Show category header if present -->
+{{ $header_md := printf "%s_header.md" .RelPermalink }}
+{{ $header_md = strings.TrimPrefix "/vault/categories" $header_md }}
+{{ if fileExists $header_md }}
+  {{ with .Site.GetPage $header_md }}{{ .Content | markdownify }}{{ end }}
 {{ end }}
 
 <!-- Collect subcategories into an array. -->
@@ -44,12 +45,13 @@
 <!-- List everything that does have a subcategory -->
 {{ range $subcategories }}
   <!-- Convert name: Programming/Algorithms => Algorithms -->
-  <h2>{{ strings.TrimPrefix (lower (printf "%s/" $cat)) (lower .) | humanize}}</h2>
+  {{ $newname := strings.TrimPrefix (lower (printf "%s/" $cat)) (lower .) | humanize}}
+  <h2 id="{{$newname}}">{{ $newname }}</h2>
 
   {{ with $.Site.GetPage (printf "/%s" . | urlize) }}
     <!-- Loop through all terms in this subcategory -->
     {{ range .Pages }}
-    <strong> {{ .Title }} ({{ len .Pages }}) </strong>
+    <h4 id="{{ .Title }}"><strong>{{ .Title }} ({{ len .Pages }})</strong></h4>
 
       <!-- Display all entries for current term in this subcategory -->
       <ul>
@@ -90,4 +92,8 @@
 </ul>
 {{ end }}
 
+{{ end }}
+
+{{ define "toc" }}
+  {{ partial "docs/taxonomy" . }}
 {{ end }}

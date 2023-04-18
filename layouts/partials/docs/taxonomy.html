@@ -15,7 +15,7 @@
             <ul>
             {{ range .Pages }}
               <li class="flex justify-between">
-                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                <a href="#{{ .Title }}">{{ .Title }}</a>
                 <span>{{ len .Pages }}</span>
               </li>
             {{ end }}
