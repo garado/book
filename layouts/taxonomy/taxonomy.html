@@ -9,7 +9,16 @@
 {{ $header_md := printf "%s_index.md" .RelPermalink }}
 {{ $header_md = strings.TrimPrefix "/vault/categories" $header_md }}
 {{ if fileExists $header_md }}
-  {{ with .Site.GetPage $header_md }}{{ .Content | markdownify }}{{ end }}
+  {{ with .Site.GetPage $header_md }}
+    {{ .Content | markdownify }}
+
+    {{ if strings.Contains .Content "Notes" }}
+      <hr>
+    {{ else if strings.Contains .Content "Links" }}
+      <hr>
+    {{ end }}
+
+  {{ end }}
 {{ end }}
 
 <!-- Collect subcategories into an array. -->
