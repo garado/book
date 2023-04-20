@@ -6,7 +6,7 @@
 <h1>{{ .Title | humanize }}</h1>
 
 <!-- Show category header if present -->
-{{ $header_md := printf "%s_header.md" .RelPermalink }}
+{{ $header_md := printf "%s_index.md" .RelPermalink }}
 {{ $header_md = strings.TrimPrefix "/vault/categories" $header_md }}
 {{ if fileExists $header_md }}
   {{ with .Site.GetPage $header_md }}{{ .Content | markdownify }}{{ end }}
@@ -75,7 +75,7 @@
 
 <!-- Now handle stray pages -->
 {{ if ne (len $stray_pages) 0 }}
-<h2>Uncategorized</h2>
+<h2>Untagged</h2>
 <ul>
 {{ range $stray_pages }}
   <li class="markdown">

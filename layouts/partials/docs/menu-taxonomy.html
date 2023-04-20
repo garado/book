@@ -5,9 +5,9 @@
   <ul>
     <li>
       {{ $root := strings.TrimPrefix "/categories/" .Title }}
-      {{ $root_index := printf "%s/_index.md" $root }}
-      {{ if fileExists $root_index }}
-        {{ with .Site.GetPage $root_index }}
+      {{ $root_override := printf "%s/_override.md" $root }}
+      {{ if fileExists $root_override }}
+        {{ with .Site.GetPage $root_override }}
         <a href="{{ .Page.RelPermalink }}"> {{ $title }} </a></li>
         {{ end }}
       {{ else }}
