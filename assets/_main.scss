@@ -21,12 +21,33 @@ body {
   }
 }
 
+p {
+  line-height: 1.6;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5 {
   font-weight: $body-font-weight;
+  a.anchor {
+    opacity: 0;
+    font-size: 0.75em;
+    vertical-align: middle;
+    text-decoration: none;
+  }
+
+  &:hover a.anchor,
+  a.anchor:focus {
+    opacity: initial;
+  }
+}
+
+hr {
+  height: $padding-1;
+  border: none;
+  background: var(--gray-200);
 }
 
 a {
