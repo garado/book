@@ -1,3 +1,15 @@
+<script>
+    var html = document.documentElement;  
+    //Check Storage. Keep user preference on page reload
+    if (localStorage.getItem('themeMode') == 'dark') {
+      html.setAttribute("data-theme","dark");
+    }
+    if (localStorage.getItem('themeMode') == 'light') {
+      html.setAttribute("data-theme","light");
+    }
+</script>
+
+
 <script async="async">
     var html = document.documentElement;
     var switcher = document.getElementsByClassName('js-toggle')[0];
