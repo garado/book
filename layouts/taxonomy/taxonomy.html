@@ -9,7 +9,7 @@
 <!-- Don't show on main categories page -->
 {{ $header_md := printf "%s_index.md" .RelPermalink }}
 {{ $header_md = strings.TrimPrefix "/categories" $header_md }}
-{{ if and (fileExists $header_md) (eq .Title "categories") }}
+{{ if and (fileExists $header_md) (not (eq .Title "Categories")) }}
   {{ with .Site.GetPage $header_md }}
     {{ .Content | markdownify }}
 
