@@ -6,9 +6,10 @@
 <h1>{{ .Title | humanize }}</h1>
 
 <!-- Show category header if present -->
+<!-- Don't show on main categories page -->
 {{ $header_md := printf "%s_index.md" .RelPermalink }}
-{{ $header_md = strings.TrimPrefix "/vault/categories" $header_md }}
-{{ if fileExists $header_md }}
+{{ $header_md = strings.TrimPrefix "/categories" $header_md }}
+{{ if and (fileExists $header_md) (eq .Title "categories") }}
   {{ with .Site.GetPage $header_md }}
     {{ .Content | markdownify }}
 
@@ -55,7 +56,10 @@
 {{ range $subcategories }}
   <!-- Convert name: Programming/Algorithms => Algorithms -->
   {{ $newname := strings.TrimPrefix (lower (printf "%s/" $cat)) (lower .) | humanize}}
+
+  {{ with not (eq $cat "Categories") }}
   <h2 id="{{$newname}}">{{ $newname }}</h2>
+  {{ end }}
 
   {{ with $.Site.GetPage (printf "/%s" . | urlize) }}
     <!-- Loop through all terms in this subcategory -->

@@ -22,7 +22,7 @@
 
 <div class="flex">
 {{ range .Params.categories }}
-    <a class="flex align-center book-page-tag" href="/vault/categories/{{.}}" rel="noopener">
+    <a class="flex align-center book-page-tag" href="/categories/{{.}}" rel="noopener">
       <img src="{{ "svg/tag.svg" | relURL }}" class="book-icon" alt="See more" />
       <span>{{ . }}</span>
     </a>

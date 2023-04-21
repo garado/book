@@ -75,6 +75,7 @@
 {{ define "main" }}
   <article class="markdown">
     {{- .Content -}}
+    {{ partial "backlinks.html" (dict "page" .) }}
   </article>
 {{ end }}
 

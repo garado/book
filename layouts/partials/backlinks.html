@@ -1,0 +1,31 @@
+{{ $backlinks := slice }}
+{{ $path_base := .page.File.ContentBaseName }}
+{{ $path_base_re := printf `["/(]%s["/)]` $path_base }}
+
+{{ range where site.RegularPages "RelPermalink" "ne" .page.RelPermalink }}
+  {{ if (findRE $path_base_re .RawContent 1) }}
+    {{ $backlinks = $backlinks | append . }}
+  {{ end }}
+{{ end }}
+
+{{ with $backlinks }}
+  <hr>
+  <section class="backlinks">
+    {{ printf "%s" ($.heading | default "<h2>Links to this note</h2>") | safeHTML }}
+    <nav>
+      <ul>
+        {{ range . }}
+          <li>
+            <a href="{{ .RelPermalink }}">
+              {{ if .Title }}
+                {{ .Title }}
+              {{ else }}
+                Page has no title
+              {{ end }}
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </nav>
+  </section>
+{{ end }}
