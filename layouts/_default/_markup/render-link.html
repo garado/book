@@ -1,7 +1,14 @@
 {{- if .Page.Site.Params.BookPortableLinks -}}
   {{- template "portable-link" . -}}
 {{- else -}}
-  <a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+  {{ $newdest := strings.TrimSuffix ".md" .Destination }}
+
+  {{ if hasPrefix $newdest "./" }}
+    <a href="../{{ $newdest | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+  {{ else }}
+    <a href="{{ $newdest | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}>{{ .Text | safeHTML }}</a>
+  {{ end }}
+
 {{- end -}}
 
 {{- define "portable-link" -}}
