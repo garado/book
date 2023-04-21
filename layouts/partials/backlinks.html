@@ -17,11 +17,7 @@
         {{ range . }}
           <li>
             <a href="{{ .RelPermalink }}">
-              {{ if .Title }}
-                {{ .Title }}
-              {{ else }}
-                Page has no title
-              {{ end }}
+              {{ partial "docs/title" . }}
             </a>
           </li>
         {{ end }}
