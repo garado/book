@@ -180,9 +180,12 @@
   }
 
   figure {
+    max-width: 100%;
+    height: auto;
     margin: $padding-16 0;
-    figcaption p {
-      margin-top: 0;
+    figcaption {
+      margin: $padding-16;
+      text-align: center;
     }
   }
 }

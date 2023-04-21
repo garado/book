@@ -1,3 +1,5 @@
+@import "custom";
+
 html {
   font-size: $font-size-base;
   scroll-behavior: smooth;
@@ -404,3 +406,4 @@ body[dir="rtl"] .book-menu {
     padding: $padding-16 * 2 $padding-16;
   }
 }
+

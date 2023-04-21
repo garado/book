@@ -1,8 +1,25 @@
-<h2 class="book-brand">
-  <a class="flex align-center" href="{{ cond (not .Site.Home.File) .Sites.First.Home.RelPermalink .Site.Home.RelPermalink }}">
-    {{- with .Site.Params.BookLogo -}}
-    <img src="{{ . | relURL }}" alt="Logo" />
-    {{- end -}}
-    <span>{{ .Site.Title }}</span>
-  </a>
-</h2>
+<div class="magic">
+
+  <h2 class="flex">
+    <a class="flex align-center" href="{{ cond (not .Site.Home.File) .Sites.First.Home.RelPermalink .Site.Home.RelPermalink }}">
+      {{- with .Site.Params.BookLogo -}}
+      <img src="{{ . | relURL }}" alt="Logo" />
+      {{- end -}}
+      <span>{{ .Site.Title }}</span>
+    </a>
+  </h2>
+  <div class="js-toggle-wrapper flex justify-between text-right">
+    <div class="js-toggle">
+      <div class="js-toggle-track">
+        <div class="js-toggle-track-check">
+          <img src={{ "svg/moon.png" | relURL}} role="presentation" style="pointer-events: none;" width="20" height="20">
+        </div>
+        <div class="js-toggle-track-x">
+          <img src={{ "svg/sun.svg" | relURL }} role="presentation" style="pointer-events: none;" width="20" height="20">
+        </div>
+      </div>
+      <input class="js-toggle-screenreader-only" type="checkbox" aria-label="Switch between Dark and Light mode">
+    </div>
+  </div>
+
+</div>

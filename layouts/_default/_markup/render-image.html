@@ -1,9 +1,21 @@
+{{ $scratch := .Page.Scratch }}
+{{ $scratch.Set "figcount" 0 }}
+
 {{- if .Page.Site.Params.BookPortableLinks -}}
   {{- template "portable-image" . -}}
 {{- else -}}
-  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}"{{ end }}/>
+  {{ if .Title }}
+    {{ $scratch.Add "figcount" 1 }}
+    <figure>
+      <img src="../{{ .Destination | safeURL }}" alt="{{ .Text }}">
+      <figcaption><strong>Fig. {{ $scratch.Get "figcount" }}</strong> {{ .Title }}</figcaption>
+    </figure>
+  {{ else }}
+    <img src="../{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}"{{ end }}/>
+  {{ end }}
 {{- end -}}
 
+<!-- i will not ever use this -->
 {{- define "portable-image" -}}
   {{- $isRemote := or (in .Destination "://") (strings.HasPrefix .Destination "//") }}
   {{- if not $isRemote }}
@@ -15,5 +27,12 @@
       {{- warnf "Image '%s' not found in '%s'" .Destination .Page.File }}
     {{- end }}
   {{- end }}
-  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}"{{ end }}/>
+  {{ if .Title }}
+    <figure>
+      <img src="../{{ .Destination | safeURL }}" alt="{{ .Text }}">
+      <figcaption>{{ .Title }}</figcaption>
+    </figure>
+  {{ else }}
+    <img src="../{{ .Destination | safeURL }}" alt="{{ .Text }}" {{ with .Title }}title="{{ . }}"{{ end }}/>
+  {{ end }}
 {{- end -}}
