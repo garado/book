@@ -11,11 +11,8 @@
 {{ $header_md = strings.TrimPrefix "/categories" $header_md }}
 {{ if and (fileExists $header_md) (not (eq .Title "Categories")) }}
   {{ with .Site.GetPage $header_md }}
-    {{ .Content | markdownify }}
-
-    {{ if strings.Contains .Content "Notes" }}
-      <hr>
-    {{ else if strings.Contains .Content "Links" }}
+    {{ .Content | safeHTML }}
+    {{ if strings.Contains .Content "#" }}
       <hr>
     {{ end }}
 
