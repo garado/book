@@ -1,12 +1,12 @@
 {{ define "main" }}
 
+{{ $scratch := .Page.Scratch }}
 {{ $cat := .Title }}
 {{ $original_context := . }}
 
 <h1>{{ .Title | humanize }}</h1>
 
 <!-- Show category header if present -->
-<!-- Don't show on main categories page -->
 {{ $header_md := printf "%s_index.md" .RelPermalink }}
 {{ $header_md = strings.TrimPrefix "/categories" $header_md }}
 {{ if and (fileExists $header_md) (not (eq .Title "Categories")) }}
@@ -15,11 +15,10 @@
     {{ if strings.Contains .Content "#" }}
       <hr>
     {{ end }}
-
   {{ end }}
 {{ end }}
 
-<!-- Collect subcategories into an array. -->
+<!-- Collect subcategories defined in config.yaml into an array. -->
 {{ $subcategories := slice }}
 {{ range $term, $_ := .Site.Taxonomies}}
   {{ with $.Site.GetPage (printf "/%s" $term | urlize) }}
@@ -31,12 +30,28 @@
 
 <!-- Loop through pages in category to collect "stray" entries:
   those that don't have an associated subcategory. -->
-{{ $pages_in_cat := index .Site.Taxonomies.categories $cat }}
+{{ $pages := index .Site.Taxonomies.categories $cat }}
 {{ $stray_pages := slice }}
 
-{{ range $pages_in_cat.Pages.ByWeight }}
+{{ range $pages.Pages.ByWeight }}
   {{ $is_stray := true }}
   {{ $params := .Params }}
+  {{ $page := . }}
+
+  <!-- subcategory check (not subsubcategory) -->
+  {{ if isset .Params $cat }}
+    {{ $is_stray = false }}
+    {{ range index .Params $cat }}
+
+      <!-- add if necessary -->
+      {{ if not (in $subcategories .) }}
+        {{ $subcategories = $subcategories | append . }}
+      {{ end }}
+
+      <!-- add to subcat slice -->
+      {{ $scratch.Add . (slice $page) }}
+    {{ end }}
+  {{ end }}
 
   {{ range $subcategories }}
     {{ if (index $params .) }}
@@ -45,7 +60,7 @@
   {{ end }}
 
   {{ if $is_stray }}
-  {{ $stray_pages = $stray_pages | append . }}
+    {{ $stray_pages = $stray_pages | append . }}
   {{ end }}
 {{ end }}
 
@@ -59,6 +74,7 @@
   {{ end }}
 
   {{ with $.Site.GetPage (printf "/%s" . | urlize) }}
+
     <!-- Loop through all terms in this subcategory -->
     {{ range .Pages }}
     <h4 id="{{ .Title }}"><strong>{{ .Title }} ({{ len .Pages }})</strong></h4>
@@ -80,7 +96,27 @@
       </ul>
 
     {{ end }}
+
   {{ end }}
+
+  <!-- subcategory -->
+  {{ if (not (in . $cat)) }}
+    <ul>
+    {{ range $scratch.Get . }}
+      <li>
+        <p>
+          <a href="{{ .RelPermalink }}">{{ partial "docs/title.html" . }}</a>
+
+          {{ if .Params.Sum }}
+          - {{ .Params.Sum }}
+          {{ end }}
+        </p>
+
+      </li>
+    {{ end }}
+    </ul>
+  {{ end }}
+
 {{ end }}
 
 <!-- Now handle stray pages -->
