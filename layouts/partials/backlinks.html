@@ -15,7 +15,7 @@
   <section class="backlinks">
     {{ printf "%s" ($.heading | default "<h2>Links to this note</h2>") | safeHTML }}
     <nav>
-      <ul>
+      <ul class="markdown">
         {{ range . }}
           <li>
             <a href="{{ .RelPermalink }}">

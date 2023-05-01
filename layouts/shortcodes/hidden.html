@@ -1,0 +1,3 @@
+{{ if fileExists "content/_index.md" }}
+  {{ .Inner | markdownify }}
+{{ end }}
