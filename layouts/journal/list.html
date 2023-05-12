@@ -1,0 +1,45 @@
+{{/* Journal list template */}}
+
+{{ define "year" }}
+  <!-- There may be a better way to do this, but I don't know it. -->
+  {{ $totalPages := 0 }}
+  {{ range .Sections }}
+    {{ $totalPages = add $totalPages (len .Pages) }}
+  {{ end }}
+
+  <h2>{{ .Title }} ({{ $totalPages }})</h2>
+  {{ range .Sections.Reverse }}
+    {{ template "month" . }} <br>
+  {{ end }}
+{{ end }}
+
+{{ define "month" }}
+  <details>
+    <summary>{{ .Title }} ({{ len .Pages }})</summary>
+    <div class="markdown-inner">
+      <ul>
+        <li><a href="{{ .Permalink }}">View all</a></li>
+        {{ range .Pages.Reverse }}
+        <li>
+          <a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a>
+          {{ if isset .Params "summary" }}
+            - {{ .Summary }}
+          {{ end }}
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+  </details>
+
+{{ end }}
+
+{{ define "main" }}
+<article class="markdown">
+{{- .Content -}}
+
+{{ range .Sections }}
+  {{ template "year" . }}
+{{ end }}
+
+</article>
+{{ end }}

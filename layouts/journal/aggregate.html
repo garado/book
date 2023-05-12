@@ -1,0 +1,11 @@
+{{/* Aggregates entries for a given month */}}
+
+{{ define "main" }}
+<article class="markdown">
+  <h1> {{ partial "docs/title.html" . }} </h1>
+  {{ range .Pages.Reverse }}
+    <h2> {{ partial "docs/title.html" . }} </h2>
+    {{ .Content }}
+  {{ end }}
+</article>
+{{ end }}

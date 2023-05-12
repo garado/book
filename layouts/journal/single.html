@@ -1,0 +1,9 @@
+{{ define "main" }}
+  <article class="markdown">
+    <h1> {{- .Date.Format "January 2 2006" -}} </h1>
+    {{- .Content -}}
+    {{ if not (eq .Title "Home" )}}
+      {{ partial "backlinks.html" (dict "page" .) }}
+    {{ end }}
+  </article>
+{{ end }}
