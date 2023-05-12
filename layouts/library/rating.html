@@ -1,0 +1,34 @@
+{{ define "main" }}
+<article class="markdown">
+  <h1>Books by rating</h1>
+  {{ $subject := site.GetPage "library/books" }}
+
+  {{ $curRating := -1 }}
+  <ul>
+
+  {{ range ($subject.Pages.ByParam "rating").Reverse }}
+    {{ $thisRating := math.Floor .Params.Rating }}
+
+    {{ if not (eq $curRating (math.Floor $thisRating)) }}
+      </ul>
+      {{ $curRating = math.Floor $thisRating }}
+      {{ if not (isset .Params "rating") }}
+        <h2>No rating given</h2>
+      {{ else }}
+        <h2>{{ $thisRating}} star</h2>
+      {{ end }}
+      <ul>
+    {{ end }}
+
+    <li>
+      {{ if not .Params.Author }}
+      <a href="{{ .RelPermalink }}">{{.Params.Rating}} {{ partial "library/title.html" . }}</a>
+      {{ else }}
+      <a href="{{ .RelPermalink }}">{{.Params.Rating}} {{ partial "library/title.html" . }} - {{ partial "library/author-fl.html" . }}</a>
+      {{ end }}
+    </li>
+  {{ end }}
+
+</article>
+
+{{ end }}

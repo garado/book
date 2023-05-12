@@ -1,0 +1,33 @@
+{{ define "main" }}
+<article class="markdown">
+  <h1>Books by title</h1>
+  {{ $subject := site.GetPage "library/books" }}
+
+  {{ $curLetter := "" }}
+  <ul>
+
+  {{ range $subject.Pages.ByParam "title" }}
+    {{ $thisLetter := substr .Params.Title 0 1 }}
+
+    {{ if not (eq $thisLetter $curLetter) }}
+      </ul>
+      {{ $curLetter = $thisLetter }}
+      {{ if eq $thisLetter "" }}
+        <h2>No author listed</h2>
+      {{ else }}
+        <h2>{{ $thisLetter }}</h2>
+      {{ end }}
+      <ul>
+    {{ end }}
+
+    <li>
+      {{ if not .Params.Author }}
+        <a href="{{ .RelPermalink }}">{{ partial "library/title.html" . }}</a>
+      {{ else }}
+        <a href="{{ .RelPermalink }}">{{ partial "library/title.html" . }} - {{ partial "library/author-fl.html" . }}</a>
+      {{ end }}
+    </li>
+  {{ end }}
+
+</article>
+{{ end }}

@@ -1,0 +1,5 @@
+{{ if (isset .Params "disptitle" ) }}
+  {{- .Params.Disptitle -}}
+{{ else }}
+  {{- .Params.Title -}}
+{{ end }}

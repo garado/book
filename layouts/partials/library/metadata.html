@@ -1,0 +1,27 @@
+<h1> {{ partial "library/title.html" . }} </h1>
+{{ partial "library/author-fl.html" . }}<br>
+
+<!-- Dates read -->
+{{ $start := cond (isset .Params "start") .Params.Start "-" }}
+{{ $end   := cond (isset .Params "end") .Params.End "-" }}
+
+{{ if eq $start $end }}
+  Read: {{ $start }} <br>
+{{ else }}
+  Read: {{ $start }} to {{ $end }} <br>
+{{ end }}
+
+<!-- Rating -->
+{{ if isset .Params "rating" }}
+  <!-- Star string -->
+  {{ $ratingNumRounded := math.Floor .Params.Rating }}
+  {{ $ratingStr := "" }}
+  {{ range $num := (seq $ratingNumRounded) }}
+    {{ $ratingStr = printf "%s★" $ratingStr }}
+  {{ end }}
+
+  Rating: {{ $ratingStr }} ({{- .Params.Rating -}}) <br>
+{{ else }}
+  Rating: - <br>
+{{ end }}
+

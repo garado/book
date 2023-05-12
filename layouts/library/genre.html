@@ -1,0 +1,76 @@
+{{ define "genre" }}
+
+<!-- Create map containing subgenres. -->
+<!-- The keys will be the subgenre names. -->
+<!-- The values will be a slice containing all of the pages matching that
+subgenre. -->
+
+{{ $genre := . }}
+
+{{ $books := site.GetPage "library/books" }}
+{{ $param := printf ".Params.Genres.%s" $genre }}
+{{ $bigGenre := where $books.Pages $param "!=" nil }}
+
+{{ $subgenresMap := dict }}
+
+<!-- Iterate over all pages in the "fiction" genre and collect the subgenres
+from each page. -->
+{{ range $bigGenre }}
+  {{ $curPage := . }}
+
+  {{ if ne 0 (len (index .Params.Genres $genre)) }}
+    {{ range (or .Params.Genres.Fiction .Params.Genres.Nonfiction) }}
+      <!-- Get the key -->
+      {{ $curSubgenre := . }}
+      {{ $sg := index $subgenresMap $curSubgenre }}
+
+      <!-- If the key doesn't exist yet, create it -->
+      {{ if not $sg }}
+        {{ $subgenresMap = merge $subgenresMap (dict $curSubgenre (slice $curPage)) }}
+
+      <!-- If the key does exist, append to it -->
+      {{ else }}
+        {{ $sg = append (slice $curPage) $sg }}
+        {{ $subgenresMap = merge $subgenresMap (dict $curSubgenre $sg) }}
+      {{ end }}
+
+    {{ end }}
+
+  <!-- Handle pages that don't have a subgenre. -->
+  {{ else }}
+    {{ $curPage := . }}
+    {{ $curSubgenre := "No subgenre" }}
+    {{ $sg := index $subgenresMap $curSubgenre }}
+    {{ if not $sg }}
+      {{ $subgenresMap = merge $subgenresMap (dict $curSubgenre (slice $curPage) )}}
+    {{ else }}
+      {{ $sg = append (slice $curPage) $sg }}
+      {{ $subgenresMap = merge $subgenresMap (dict $curSubgenre $sg)}}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- Done collecting data - make the html -->
+<h2>{{ $genre }} ({{ len $bigGenre }})</h2>
+{{ range $subgenre, $books := $subgenresMap }}
+  <h4>{{ humanize $subgenre}} ({{ len $books }})</h4>
+  <ul>
+  {{ range $books }}
+  <li>
+    <a href="{{ .Permalink }}">{{ .Title }}{{ if .Params.Author }} - {{ partial "library/author-fl.html" . }}{{ end }}</a>
+  </li>
+  {{ end }}
+  </ul>
+{{ end }}
+
+{{ end }}
+
+{{/* -------------------------------------- */}}
+
+{{ define "main" }}
+<article class="markdown">
+<h1>Books by genre</h1>
+{{ template "genre" "Fiction" }}
+{{ template "genre" "Nonfiction" }}
+</article>
+{{ end }}
