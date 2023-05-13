@@ -81,9 +81,6 @@
 {{ define "main" }}
   <article class="markdown">
     {{- .Content -}}
-    {{ if not (eq .Title "Home" )}}
-      {{ partial "backlinks.html" (dict "page" .) }}
-    {{ end }}
   </article>
 {{ end }}
 

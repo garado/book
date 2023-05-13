@@ -1,0 +1,57 @@
+{{ define "section-l2" }}
+  <h2>{{ partial "docs/title.html" . }}</h2>
+  {{ template "section-content-list" . }}
+  {{ range .Sections }} {{ template "section-l3" . }} {{ end }}
+{{ end }}
+
+{{ define "section-l3" }}
+  <h3>{{ partial "docs/title.html" . }}</h3>
+  {{ template "section-content-list" . }}
+  {{ range .Sections }} {{ template "section-l3" . }} {{ end }}
+{{ end }}
+
+{{ define "section-l4" }}
+  <h4>{{ partial "docs/title.html" . }}</h4>
+  {{ template "section-content-list" . }}
+  {{ range .Sections }} {{ template "section-l4" . }} {{ end }}
+{{ end }}
+
+{{ define "section-l5" }}
+  <h4>{{ partial "docs/title.html" . }}</h4>
+  {{ template "section-content-list" . }}
+  {{ range .Sections }} {{ template "section-l5" . }} {{ end }}
+{{ end }}
+
+{{ define "section-content-list" }}
+  {{ if isset .Params "summary" }} {{- .Summary -}} {{ end }}
+  <ul>
+  {{ range .Pages }}
+  <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
+  {{ end }}
+  </ul>
+{{ end }}
+
+{{ define "main" }}
+<article class="markdown">
+  <h1>{{ partial "docs/title.html" . }}</h1>
+
+  {{ if .Content }}
+    {{ .Content }}
+  {{ end }}
+
+  {{ range .Sections }} {{ template "section-l2" . }} {{ end }}
+
+  <!-- Pages that don't have a subsection -->
+  {{ $rootSection := .Section }}
+  {{ $strayPages := intersect (where .Pages "Section" "==" $rootSection) (where .Pages "Kind" "==" "page") }}
+
+  {{ if ne (len $strayPages) 0 }}
+  <h2>Stray pages</h2>
+  <ul>
+    {{ range $strayPages }}
+    <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
+    {{ end }}
+  </ul>
+  {{ end }}
+</article>
+{{ end }}
