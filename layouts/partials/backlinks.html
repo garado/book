@@ -1,8 +1,10 @@
+{{/* Performs regex search through all other pages to find backlinks. */}}
+
 {{ $backlinks := slice }}
 {{ $path_base := .page.File.ContentBaseName }}
-{{ $path_base_re := printf `["/(]%s["/)]` $path_base }}
+{{ $path_base_re := printf `\[(.*)\]["/(]%s["/)]` $path_base }}
 {{ $path_base_md := printf "%s.md" $path_base }}
-{{ $path_base_re_md := printf `["/(]%s["/)]` $path_base_md }}
+{{ $path_base_re_md := printf `\[(.*)\]["/(]%s["/)]` $path_base_md }}
 
 {{ range where site.RegularPages "RelPermalink" "ne" .page.RelPermalink }}
   {{ if or (findRE $path_base_re .RawContent 1) (findRE $path_base_re_md .RawContent 1) }}
