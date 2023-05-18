@@ -42,16 +42,18 @@
   {{ range .Sections }} {{ template "section-l2" . }} {{ end }}
 
   <!-- Pages that don't have a subsection -->
-  {{ $rootSection := .Section }}
-  {{ $strayPages := intersect (where .Pages "Section" "==" $rootSection) (where .Pages "Kind" "==" "page") }}
+  {{ if not (isset .Params "hidestray" )}}
+    {{ $rootSection := .Section }}
+    {{ $strayPages := intersect (where .Pages "Section" "==" $rootSection) (where .Pages "Kind" "==" "page") }}
 
-  {{ if ne (len $strayPages) 0 }}
-  <h2>Stray pages</h2>
-  <ul>
-    {{ range $strayPages }}
-    <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
+    {{ if ne (len $strayPages) 0 }}
+    <h2>Stray pages</h2>
+    <ul>
+      {{ range $strayPages }}
+      <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
+      {{ end }}
+    </ul>
     {{ end }}
-  </ul>
   {{ end }}
 </article>
 {{ end }}
