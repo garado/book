@@ -10,22 +10,17 @@
   {{ range .Sections }} {{ template "section-l3" . }} {{ end }}
 {{ end }}
 
+{{/* The lowest section highlight level */}}
 {{ define "section-l4" }}
   <h4>{{ partial "docs/title.html" . }}</h4>
   {{ template "section-content-list" . }}
   {{ range .Sections }} {{ template "section-l4" . }} {{ end }}
 {{ end }}
 
-{{ define "section-l5" }}
-  <h4>{{ partial "docs/title.html" . }}</h4>
-  {{ template "section-content-list" . }}
-  {{ range .Sections }} {{ template "section-l5" . }} {{ end }}
-{{ end }}
-
 {{ define "section-content-list" }}
   {{ if isset .Params "summary" }} {{- .Summary -}} {{ end }}
   <ul>
-  {{ range .Pages }}
+  {{ range .RegularPages }}
   <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
   {{ end }}
   </ul>
