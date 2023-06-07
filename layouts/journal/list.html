@@ -22,9 +22,7 @@
         {{ range .Pages.Reverse }}
         <li>
           <a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a>
-          {{ if isset .Params "summary" }}
-            - {{ .Summary }}
-          {{ end }}
+          {{ if isset .Params "summary" }} - {{ .Summary }} {{ end }}
         </li>
         {{ end }}
       </ul>
