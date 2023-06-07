@@ -7,7 +7,7 @@
 {{ define "section-l3" }}
   <h3>{{ partial "docs/title.html" . }}</h3>
   {{ template "section-content-list" . }}
-  {{ range .Sections }} {{ template "section-l3" . }} {{ end }}
+  {{ range .Sections }} {{ template "section-l4" . }} {{ end }}
 {{ end }}
 
 {{/* The lowest section highlight level */}}
