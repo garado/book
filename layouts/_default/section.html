@@ -21,7 +21,12 @@
   {{ if isset .Params "summary" }} {{- .Summary -}} {{ end }}
   <ul>
   {{ range .RegularPages }}
-  <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
+  <li>
+    <a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a>
+    {{ if isset .Params "summary" }}
+    - {{ .Params.summary }}
+    {{ end }}
+  </li>
   {{ end }}
   </ul>
 {{ end }}
@@ -45,7 +50,12 @@
     <h2>Stray pages</h2>
     <ul>
       {{ range $strayPages }}
-      <li><a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a></li>
+      <li>
+        <a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a>
+        {{ if isset .Params "summary" }}
+        - {{ .Params.summary }}
+        {{ end }}
+      </li>
       {{ end }}
     </ul>
     {{ end }}
