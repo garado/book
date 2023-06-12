@@ -2,8 +2,8 @@
 {{ partial "library/author-fl.html" . }}<br>
 
 <!-- Dates read -->
-{{ $start := cond (isset .Params "start") .Params.Start "-" }}
-{{ $end   := cond (isset .Params "end") .Params.End "-" }}
+{{ $start := cond (eq .Params.Start nil) "-" .Params.Start }}
+{{ $end   := cond (eq .Params.End nil) "-" .Params.End }}
 
 {{ if eq $start $end }}
   Read: {{ $start }} <br>
@@ -12,7 +12,7 @@
 {{ end }}
 
 <!-- Rating -->
-{{ if isset .Params "rating" }}
+{{ if not (eq .Params.Rating nil) }}
   <!-- Star string -->
   {{ $ratingNumRounded := math.Floor .Params.Rating }}
   {{ $ratingStr := "" }}
