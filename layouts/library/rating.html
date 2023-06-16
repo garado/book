@@ -12,7 +12,7 @@
     {{ if not (eq $curRating (math.Floor $thisRating)) }}
       </ul>
       {{ $curRating = math.Floor $thisRating }}
-      {{ if not (isset .Params "rating") }}
+      {{ if eq .Params.Rating nil }}
         <h2>No rating given</h2>
       {{ else }}
         <h2>{{ $thisRating}} star</h2>
