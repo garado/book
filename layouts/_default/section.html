@@ -17,19 +17,35 @@
   {{ range .Sections }} {{ template "section-l4" . }} {{ end }}
 {{ end }}
 
+{{/* ====================== */}}
+
 {{ define "section-content-list" }}
   {{ if isset .Params "summary" }} {{- .Summary -}} {{ end }}
-  <ul>
-  {{ range .RegularPages }}
-  <li>
-    <a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a>
-    {{ if isset .Params "summary" }}
-    - {{ .Params.summary }}
+  {{/* Option for custom sort param */}}
+  {{ if isset .Params "sort" }}
+    <ul>
+    {{ $param := printf ".Params.%s" .Params.Sort }}
+    {{ range (sort .RegularPages ".Params.Id") }}
+    <li><a href="{{ .Permalink }}">{{ .Params.Id }} - {{ .Title }}</a></li>
     {{ end }}
-  </li>
+    </ul>
+
+  {{/* No custom sort param */}}
+  {{ else }}
+    <ul>
+    {{ range .RegularPages }}
+    <li>
+      <a href="{{ .Permalink }}">{{ partial "docs/title.html" . }}</a>
+      {{ if isset .Params "summary" }}
+      - {{ .Params.summary }}
+      {{ end }}
+    </li>
+    {{ end }}
+    </ul>
   {{ end }}
-  </ul>
 {{ end }}
+
+{{/* ====================== */}}
 
 {{ define "main" }}
 <article class="markdown">
