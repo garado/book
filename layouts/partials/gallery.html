@@ -1,0 +1,31 @@
+{{/* Image gallery */}}
+
+<style>
+.image-gallery {overflow: auto; margin-left: -1%!important; max-width: 100%; }
+.image-gallery li {float: left; display: block; margin: 0 0 1% 1%; max-width: 300px; }
+.image-gallery li a {text-align: center; text-decoration: none!important; color: var(--body-font-color);}
+.image-gallery li a span {display: block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; padding: 3px 0; color: var(--body-font-color);}
+.image-gallery li a img {width: 100%; display: block;}
+</style>
+
+{{ $absoluteDir := (printf "content/%s" (path.Dir .RelPermalink)) }}
+{{ $dir := path.Dir .RelPermalink }}
+
+{{ if fileExists $absoluteDir }}
+
+<ul class="image-gallery flex">
+  {{ range readDir $absoluteDir }}
+  {{ if (ne .Name "index.md") }}
+  {{- $imgPath := (printf "%s/%s" $dir .Name) -}}
+  {{- $imageTitle := index (split .Name ".") 0 -}}
+  <li>
+    <a href="{{ $imgPath | relURL }}">
+      <img src="{{ $imgPath | relURL }}" title={{ $imageTitle }}>
+      <span>{{ $imageTitle | humanize }}</span>
+    </a>
+  </li>
+  {{ end }}
+  {{ end }}
+</ul>
+
+{{ end }}
