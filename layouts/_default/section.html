@@ -1,18 +1,21 @@
 {{ define "section-l2" }}
-  <h2>{{ partial "docs/title.html" . }}</h2>
+  {{ $name := (partial "docs/title.html" .) }}
+  <h2 id={{ $name }}>{{ $name }}</h2>
   {{ template "section-content-list" . }}
   {{ range .Sections }} {{ template "section-l3" . }} {{ end }}
 {{ end }}
 
 {{ define "section-l3" }}
-  <h3>{{ partial "docs/title.html" . }}</h3>
+  {{ $name := (partial "docs/title.html" .) }}
+  <h3 id={{ $name }}>{{ $name }}</h3>
   {{ template "section-content-list" . }}
   {{ range .Sections }} {{ template "section-l4" . }} {{ end }}
 {{ end }}
 
 {{/* The lowest section highlight level */}}
 {{ define "section-l4" }}
-  <h4>{{ partial "docs/title.html" . }}</h4>
+  {{ $name := (partial "docs/title.html" .) }}
+  <h4 id={{ $name }}>{{ $name }}</h4>
   {{ template "section-content-list" . }}
   {{ range .Sections }} {{ template "section-l4" . }} {{ end }}
 {{ end }}
@@ -49,7 +52,7 @@
 
 {{ define "main" }}
 <article class="markdown">
-  <h1>{{ partial "docs/title.html" . }}</h1>
+  <h1 id={{ .Title }}>{{ partial "docs/title.html" . }}</h1>
 
   {{ if .Content }}
     {{ .Content }}
@@ -63,7 +66,9 @@
     {{ $strayPages := intersect (where .Pages "Section" "==" $rootSection) (where .Pages "Kind" "==" "page") }}
 
     {{ if ne (len $strayPages) 0 }}
-    <h2>Stray pages</h2>
+    {{ .Scratch.Set "showStray" true }}
+    <h2 id="Stray pages">Stray pages</h2>
+    Pages without an assigned subsection.
     <ul>
       {{ range $strayPages }}
       <li>
@@ -77,4 +82,42 @@
     {{ end }}
   {{ end }}
 </article>
+{{ end }}
+
+{{/* I have to do this shit myself, it seems */}}
+
+{{ define "toc-section" }}
+  <ul>
+  {{ range .Sections }}
+    <li>
+      {{ $name := (partial "docs/title.html" .) }}
+      <a href="#{{ $name }}">{{ $name }}</a>
+      {{ template "toc-section" . }}
+    </li>
+  {{ end }}
+  </ul>
+{{ end }}
+
+{{ define "toc" }}
+<aside class="book-toc">
+<div class="book-toc-content">
+<nav id="TableOfContents">
+  <ul>
+    {{ range .Sections }}
+    <li>
+      {{ $name := (partial "docs/title.html" .) }}
+      <a href="#{{ $name }}">{{ $name }}</a>
+      {{ template "toc-section" . }}
+    </li>
+    {{ end }}
+    {{ with .Scratch.Get "showStray" }}
+    <li>
+      <a href="#Stray pages">Stray pages</a>
+    </li>
+    {{ end }}
+  </ul>
+</nav>
+</div>
+</aside>
+
 {{ end }}

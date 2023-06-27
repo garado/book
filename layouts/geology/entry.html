@@ -46,13 +46,13 @@
     <a href="{{ .RelPermalink }}">Previous</a>
     {{ end }}
 
-    {{ if (and $prev_page $next_page) }} | {{ end }}
+    {{ if (and $prev_page $next_page) }} - {{ end }}
 
     {{ with $next_page}}
     <a href="{{ .RelPermalink }}">Next</a>
     {{ end }}
 
-    {{ if (or $prev_page $next_page) }} | {{ end }}
+    {{ if (or $prev_page $next_page) }} - {{ end }}
     <a href="/geology">Back to collection</a>
 
   </article>
