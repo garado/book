@@ -5,111 +5,127 @@
 // Theme switcher stuff!
 
 .js-toggle {
-    touch-action: pan-x;
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    background-color: transparent;
-    border: 0;
-    padding: 0;
-    -webkit-touch-callout: none;
-    user-select: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  .js-toggle-screenreader-only {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
-  
-  .js-toggle-track {
-    margin-right: 2em;
-    padding: 0;
-    transition: all 0.2s ease;
-  }
-  
-  .js-toggle-track-check {
-    position: absolute;
-    width: 17px;
-    height: 17px;
-    top: 0px;
-    bottom: 0px;
-    margin-top: auto;
-    margin-bottom: auto;
-    line-height: 0;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
-  
-  .js-toggle--checked .js-toggle-track-check {
-    opacity: 1;
-    transition: opacity 0.25s ease;
-  }
-  
-  .js-toggle-track-x {
-    position: absolute;
-    width: 17px;
-    height: 17px;
-    top: 0px;
-    bottom: 0px;
-    margin-top: auto;
-    margin-bottom: auto;
-    line-height: 0;
-    opacity: 1;
-    transition: opacity 0.25s ease;
-  }
-  
-  .js-toggle--checked .js-toggle-track-x {
-    opacity: 0;
-  }
-  
-  .magic {
-      display: flex;
-      justify-content: space-between;
-      height: 2em;
-  }
+  touch-action: pan-x;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
 
-  body.dark-mode, 
-  body.dark-mode main * {
-      background: rgb(45, 45, 45);
-      color: #f5f5f5;
-  }
+.js-toggle-screenreader-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.js-toggle-track {
+  margin-right: 2em;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.js-toggle-track-check {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.js-toggle--checked .js-toggle-track-check {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.js-toggle-track-x {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+.js-toggle--checked .js-toggle-track-x {
+  opacity: 0;
+}
+
+.magic {
+  display: flex;
+  justify-content: space-between;
+  height: 2em;
+}
+
+body.dark-mode, 
+body.dark-mode main * {
+  background: rgb(45, 45, 45);
+  color: #f5f5f5;
+}
 
 $theme-light: (
-    gray-100: #f5f6f7,
-    gray-200: #e9ecef,
-    body-background: white,
-    body-font-color: #2e3440,
-    color-link: #5e81ac,
-    color-visited-link: #5e81ac,
-    icon-filter: none,
+gray-100: #f5f6f7,
+gray-200: #e9ecef,
+body-background: white,
+body-font-color: #2e3440,
+color-link: #5e81ac,
+color-visited-link: #5e81ac,
+icon-filter: none,
 );
 
 $theme-dark: (
-    gray-100: rgba(46, 52, 64, 0.8),
-    gray-200: rgba(46, 52, 64, 0.9),
-    body-background: #262c38,
-    body-font-color: #eceff4,
-    color-link: #88c0d0,
-    color-visited-link: #88c0d0,
-    icon-filter: brightness(0) invert(1),
+gray-100: rgba(46, 52, 64, 0.8),
+gray-200: rgba(46, 52, 64, 0.9),
+body-background: #262c38,
+body-font-color: #eceff4,
+color-link: #88c0d0,
+color-visited-link: #88c0d0,
+icon-filter: brightness(0) invert(1),
 );
 
 [data-theme="dark"] {
-    @each $name, $value in $theme-dark {
-        --#{$name}: #{$value};
-    }
+  @each $name, $value in $theme-dark {
+    --#{$name}: #{$value};
+  }
 }
 
 [data-theme="light"] {
-    @each $name, $value in $theme-light {
-        --#{$name}: #{$value};
-    }
+  @each $name, $value in $theme-light {
+    --#{$name}: #{$value};
+  }
+}
+
+// Gallery ==========================
+
+.gallery {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.gallery a {
+  border: 0;
+  margin-bottom: .5em;
+}
+
+.gallery img {
+  padding: 0.25em;
 }
