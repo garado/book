@@ -1,59 +1,67 @@
+{{ define "geonav" }}
+  {{ $prev := sub (int .Params.Id) 1 }}
+  {{ $next := add (int .Params.Id) 1 }}
+
+  {{ $prev_slug := printf "%03d" $prev }}
+  {{ $next_slug := printf "%03d" $next }}
+
+  {{ $prev_page := .GetPage (printf "/geology/collection/%s.md" $prev_slug ) }}
+  {{ $next_page := .GetPage (printf "/geology/collection/%s.md" $next_slug ) }}
+
+  {{ with $prev_page }}
+  <a class="book-btn" href="{{ .RelPermalink }}">Previous</a>
+  {{ end }}
+
+  {{ with $next_page}}
+  <a class="book-btn" href="{{ .RelPermalink }}">Next</a>
+  {{ end }}
+
+  <a class="book-btn" href="/geology">Back to collection</a>
+{{ end }}
+
 {{ define "main" }}
   <article class="markdown">
     <h1> {{ .Params.Id }} - {{ .Title }}</h1>
+    {{ template "geonav" . }}
+    <hr>
+
     <table>
       <tr>
         <th>ID</th>
         <td>{{ .Params.Id }}</td>
       </tr>
+
       {{ if ne .Params.Origin nil }}
       <tr>
         <th>Origin</th>
         <td>{{ .Params.Origin }}</td>
       </tr>
       {{ end }}
+
+      {{ if ne .Params.Obtained_from nil }}
       <tr>
         <th>Obtained from </th>
         <td>{{ .Params.Obtained_from }}</td>
       </tr>
+      {{ end }}
+
+      {{ if ne .Params.Obtained_on nil }}
       <tr>
         <th>Obtained on</th>
         <td>{{ .Params.Obtained_on }}</td>
+      </tr>
+      {{ end }}
+
+      <tr>
+        <th>Classification</th>
+        {{ $class := .Params.Classification }}
+        <td><a href={{ printf "/classification#%s" $class }}>{{ $class }}</a></td>
       </tr>
     </table>
 
     {{ partial "gallery.html" . }}
 
     {{- .Content -}}
-
-    <hr>
-
-    See also
-    {{ partial "related.html" . }}
-
-    <br>
-
-    {{ $prev := sub (int .Params.Id) 1 }}
-    {{ $next := add (int .Params.Id) 1 }}
-
-    {{ $prev_slug := printf "%03d" $prev }}
-    {{ $next_slug := printf "%03d" $next }}
-
-    {{ $prev_page := .GetPage (printf "/geology/collection/%s.md" $prev_slug ) }}
-    {{ $next_page := .GetPage (printf "/geology/collection/%s.md" $next_slug ) }}
-
-    {{ with $prev_page }}
-    <a href="{{ .RelPermalink }}">Previous</a>
-    {{ end }}
-
-    {{ if (and $prev_page $next_page) }} - {{ end }}
-
-    {{ with $next_page}}
-    <a href="{{ .RelPermalink }}">Next</a>
-    {{ end }}
-
-    {{ if (or $prev_page $next_page) }} - {{ end }}
-    <a href="/geology">Back to collection</a>
 
   </article>
 {{ end }}

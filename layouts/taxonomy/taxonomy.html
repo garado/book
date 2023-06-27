@@ -4,7 +4,7 @@
 {{ $cat := .Title }}
 {{ $original_context := . }}
 
-<h1>{{ .Title | humanize }}</h1>
+<article class="markdown">
 
 <!-- Show category header if present -->
 {{ $header_md := printf "%s_index.md" .RelPermalink }}
@@ -138,6 +138,7 @@
 </ul>
 {{ end }}
 
+</article>
 {{ end }}
 
 {{ define "toc" }}
