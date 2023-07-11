@@ -10,7 +10,7 @@
 
 {{ define "book-section-children" }}{{/* (dict "Section" .Section "CurrentPage" .CurrentPage) */}}
   <ul>
-    {{ range .Section.Pages }}
+    {{ range (where .Section.Pages "Params.bookhidden" "ne" true) }}
       <li> {{ template "book-page-link" (dict "Page" . "CurrentPage" $.CurrentPage) }} </li>
     {{ end }}
   </ul>
