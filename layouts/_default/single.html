@@ -1,5 +1,9 @@
 {{ define "main" }}
 <article class="markdown">
+  {{ if isset .Params "issection" }}
+    {{- partial "section_nav.html" . -}}
+  {{ end }}
+
   {{- .Content -}}
   {{ if not (eq .Title "Home" )}}
     {{ partial "backlinks.html" (dict "page" .) }}

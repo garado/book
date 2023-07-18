@@ -1,0 +1,19 @@
+{{ $thisSection := .Section }}
+
+<h1> {{- partial "docs/title.html" . -}} </h1>
+
+{{/* BUG: Not sure why .Next gives the prev page and .Prev gives the next page. */}}
+
+{{ with .Next }}
+  {{ if eq .Section $thisSection }}
+  <a class="book-btn" href="{{ .RelPermalink }}">Previous: {{ partial "docs/title.html" . }}</a>
+  {{ end }}
+{{ end }}
+
+{{ with .Prev }}
+  {{ if eq .Section $thisSection }}
+    <a class="book-btn" href="{{ .RelPermalink }}">Next: {{ partial "docs/title.html" . }}</a>
+  {{ end }}
+{{ end }}
+
+<hr>
