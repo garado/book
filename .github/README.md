@@ -5,7 +5,7 @@ This is a fork of alex-shpak's [Hugo Book theme](https://github.com/alex-shpak/h
 ## Some stuff I've added
 - Light/dark mode toggle
 - Custom layouts
-    - For my [rock collection](https://vault.garado.dev/collection/001/) 😎
+    - For my [rock collection](https://vault.garado.dev/geology/collection/001/) 😎
     - For autosorting my reading list by author, genre, rating, and title
 
 - Auto navigate between pages in sections
