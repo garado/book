@@ -1,0 +1,14 @@
+{{ define "items" }}
+<ul>
+  {{ range  . }}
+  <li>
+    {{ .Lastmod.Format "2 January" }} - <a href="{{ .Permalink }}">{{ partial "docs/title" . }}</a>
+  </li>
+  {{ end }}
+</ul>
+{{ end }}
+
+{{ $byLastMod :=  .Site.RegularPages.ByLastmod  }}
+{{ $recent := ($byLastMod | last 15).Reverse }}
+
+{{ template "items" $recent }}
