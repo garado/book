@@ -1,0 +1,8 @@
+{{/* Layout for programming practice problems. */}}
+
+{{ define "main" }}
+<article class="markdown">
+  {{- partial "programming/practice_nav.html" . -}}
+  {{- .Content -}}
+</article>
+{{ end }}

@@ -1,3 +1,5 @@
+{{/* Layout for rock collection entries. */}}
+
 {{ define "geonav" }}
   {{ $prev := sub (int .Params.Id) 1 }}
   {{ $next := add (int .Params.Id) 1 }}
