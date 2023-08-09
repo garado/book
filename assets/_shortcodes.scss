@@ -86,6 +86,8 @@
     border: $padding-1 solid var(--color-link);
     border-radius: $border-radius;
     cursor: pointer;
+    margin-top: $padding-1 * 2;
+    margin-bottom: $padding-1 * 2;
 
     &:hover {
       text-decoration: none;
