@@ -1,8 +1,9 @@
 {{ $thisSection := .Section }}
+{{ $diffs := slice "school" "basic" "easy" "medium" "hard" }}
 
 <h1> {{- partial "docs/title.html" . -}} </h1>
 
-<a class="book-btn" href="">Difficulty: {{ humanize .Params.Difficulty }}</a>
+<a class="book-btn" href="">Difficulty: {{ humanize (index $diffs .Params.Difficulty) }}</a>
 
 <a class="book-btn" href={{ printf "/programming/practice/#%s" .Parent.Title }}>Topic: {{ .Parent.Title }}</a>
 
